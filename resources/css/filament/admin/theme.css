@@ -1,0 +1,441 @@
+@import '/vendor/filament/filament/resources/css/theme.css';
+@import '../../font.css';
+
+@config 'tailwind.config.js';
+
+@layer utilities {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+}
+
+* {
+    font-family: Inter, EstedadFD, IRANSansX, serif;
+}
+
+.primary-icon {
+    @apply bg-gradient-to-b from-primary-500 to-primary-600 rounded shadow text-white;
+}
+
+.fi-btn {
+    padding: .175rem 1.25rem;
+    @apply !rounded shadow
+}
+
+button.fi-btn-color-primary:not(.fi-btn-outlined),
+a.fi-btn-color-primary:not(.fi-btn-outlined) {
+    @apply bg-primary-500 hover:opacity-90 border-t border-t-primary-400 ring-1 ring-primary-600;
+}
+
+button.fi-btn-color-danger:not(.fi-btn-outlined),
+a.fi-btn-color-danger:not(.fi-btn-outlined) {
+    @apply bg-danger-500 hover:opacity-90 border-t border-t-danger-400 ring-1 ring-danger-600;
+}
+
+button.fi-btn-color-stone:not(.fi-btn-outlined),
+a.fi-btn-color-stone:not(.fi-btn-outlined) {
+    @apply text-white bg-stone-800 hover:opacity-90 border-t border-t-stone-600 ring-1 ring-stone-900;
+}
+
+button.fi-btn-color-info:not(.fi-btn-outlined),
+a.fi-btn-color-info:not(.fi-btn-outlined) {
+    @apply bg-blue-500 hover:opacity-90 border-t border-t-blue-400 ring-1 ring-blue-600;
+}
+
+button.fi-btn-color-success:not(.fi-btn-outlined),
+a.fi-btn-color-success:not(.fi-btn-outlined) {
+    @apply bg-green-500 hover:opacity-90 border-t border-t-green-400 ring-1 ring-green-600;
+}
+
+button.fi-btn-color-warning:not(.fi-btn-outlined),
+a.fi-btn-color-warning:not(.fi-btn-outlined) {
+    @apply bg-amber-500 hover:opacity-90 border-t border-t-amber-400 ring-1 ring-amber-600;
+}
+
+.fi-modal-close-overlay {
+    @apply backdrop-blur-sm;
+}
+
+.fi-badge {
+    @apply text-sm
+}
+
+.form-input-border {
+    @apply border-b pb-3 dark:border-gray-700
+}
+
+.filament-simple-alert {
+    @apply border border-custom-100 shadow-sm rounded-xl
+}
+
+/*.fi-form .fi-section {*/
+/*    @apply overflow-hidden*/
+/*}*/
+
+.fi-form .fi-section-header {
+    @apply bg-primary-100 dark:bg-gray-800 rounded-t-xl
+}
+
+.fi-form .fi-section-header-heading, .fi-section-header-icon {
+    @apply text-primary-900 dark:text-gray-300
+}
+
+/* Otp input */
+
+input.fi-otp-input[type=number] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+    overflow: visible;
+}
+
+input.fi-otp-input[type=number]::-webkit-inner-spin-button,
+input.fi-otp-input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0
+}
+
+.-start-3 {
+    inset-inline-start: -.75rem
+}
+
+.mr-1 {
+    margin-right: .25rem
+}
+
+.ms-6 {
+    margin-inline-start: 1.5rem
+}
+
+.divide-solid > :not([hidden]) ~ :not([hidden]) {
+    border-style: solid
+}
+
+.bg-gray-500\/10 {
+    background-color: #6b72801a
+}
+
+.ring-1,
+.ring-4 {
+    box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+}
+
+.no-resize textarea {
+    @apply resize-none;
+}
+
+.table-repeater-component .choices input {
+    min-width: 100% !important;
+}
+
+.table-repeater-column.has-hidden-label .fi-fo-field-wrp > label {
+    @apply sr-only text-sm !mb-2 block;
+}
+
+.table-repeater-column.has-hidden-label .fi-fo-field-wrp:has(.fi-checkbox-input) > label.fi-fo-checkbox-list-option-label {
+    @apply not-sr-only;
+}
+
+@media (min-width: calc(theme('screens.sm') + 1px)) {
+    .table-repeater-component.break-point-sm {
+        &.streamlined {
+            .fi-input-wrp,
+            .fi-fo-file-upload .filepond--root {
+                @apply ring-0 bg-transparent shadow-none;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-checkbox-list),
+            .fi-fo-field-wrp:has(.fi-checkbox-input),
+            .fi-fo-field-wrp:has(.fi-fo-radio) {
+                @apply py-2 px-3;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-toggle) {
+                @apply inline-block mt-1;
+            }
+        }
+
+        .table-repeater-row {
+            @apply divide-x divide-gray-950/5 dark:divide-white/20;
+        }
+
+        .table-repeater-row-actions {
+            @apply justify-center;
+        }
+    }
+}
+
+@media (min-width: calc(theme('screens.md') + 1px)) {
+    .table-repeater-component.break-point-md {
+        &.streamlined {
+            .fi-input-wrp,
+            .fi-fo-file-upload .filepond--root {
+                @apply ring-0 bg-transparent shadow-none;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-checkbox-list),
+            .fi-fo-field-wrp:has(.fi-checkbox-input),
+            .fi-fo-field-wrp:has(.fi-fo-radio) {
+                @apply py-2 px-3;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-toggle) {
+                @apply inline-block mt-1;
+            }
+        }
+
+        .table-repeater-row {
+            @apply divide-x divide-gray-950/5 dark:divide-white/20;
+        }
+
+        .table-repeater-row-actions {
+            @apply justify-center;
+        }
+    }
+}
+
+@media (min-width: calc(theme('screens.lg') + 1px)) {
+    .table-repeater-component.break-point-lg {
+        &.streamlined {
+            .fi-input-wrp,
+            .fi-fo-file-upload .filepond--root {
+                @apply ring-0 bg-transparent shadow-none;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-checkbox-list),
+            .fi-fo-field-wrp:has(.fi-checkbox-input),
+            .fi-fo-field-wrp:has(.fi-fo-radio) {
+                @apply py-2 px-3;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-toggle) {
+                @apply inline-block mt-1;
+            }
+        }
+
+        .table-repeater-row {
+            @apply divide-x divide-gray-950/5 dark:divide-white/20;
+        }
+
+        .table-repeater-row-actions {
+            @apply justify-center;
+        }
+    }
+}
+
+@media (min-width: calc(theme('screens.xl') + 1px)) {
+    .table-repeater-component.break-point-xl {
+        &.streamlined {
+            .fi-input-wrp,
+            .fi-fo-file-upload .filepond--root {
+                @apply ring-0 bg-transparent shadow-none;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-checkbox-list),
+            .fi-fo-field-wrp:has(.fi-checkbox-input),
+            .fi-fo-field-wrp:has(.fi-fo-radio) {
+                @apply py-2 px-3;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-toggle) {
+                @apply inline-block mt-1;
+            }
+        }
+
+        .table-repeater-row {
+            @apply divide-x divide-gray-950/5 dark:divide-white/20;
+        }
+
+        .table-repeater-row-actions {
+            @apply justify-center;
+        }
+    }
+}
+
+@media (min-width: calc(theme('screens.2xl') + 1px)) {
+    .table-repeater-component.break-point-2xl {
+        &.streamlined {
+            .fi-input-wrp,
+            .fi-fo-file-upload .filepond--root {
+                @apply ring-0 bg-transparent shadow-none;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-checkbox-list),
+            .fi-fo-field-wrp:has(.fi-checkbox-input),
+            .fi-fo-field-wrp:has(.fi-fo-radio) {
+                @apply py-2 px-3;
+            }
+
+            .fi-fo-field-wrp:has(.fi-fo-toggle) {
+                @apply inline-block mt-1;
+            }
+        }
+
+        .table-repeater-row {
+            @apply divide-x divide-gray-950/5 dark:divide-white/20;
+        }
+
+        .table-repeater-row-actions {
+            @apply justify-center;
+        }
+    }
+}
+
+@media (max-width: theme('screens.sm')) {
+    .table-repeater-component.break-point-sm table {
+        @apply block w-full;
+
+        thead {
+            @apply sr-only;
+        }
+
+        :is(tbody, th, td) {
+            @apply block !w-full;
+        }
+
+        label {
+            @apply text-start;
+        }
+
+        tr {
+            @apply p-4 !w-full flex flex-col gap-6;
+        }
+
+        tr td:last-of-type ul {
+            @apply px-0;
+        }
+
+        .table-repeater-column.has-hidden-label .fi-fo-field-wrp > label {
+            @apply not-sr-only;
+        }
+    }
+}
+
+@media (max-width: theme('screens.md')) {
+    .table-repeater-component.break-point-md table {
+        @apply block w-full;
+
+        thead {
+            @apply sr-only;
+        }
+
+        :is(tbody, th, td) {
+            @apply block !w-full;
+        }
+
+        label {
+            @apply text-start;
+        }
+
+        tr {
+            @apply p-4 !w-full flex flex-col gap-6;
+        }
+
+        tr td:last-of-type ul {
+            @apply px-0;
+        }
+
+        .table-repeater-column.has-hidden-label .fi-fo-field-wrp > label {
+            @apply not-sr-only;
+        }
+    }
+}
+
+@media (max-width: theme('screens.lg')) {
+    .table-repeater-component.break-point-lg table {
+        @apply block w-full;
+
+        thead {
+            @apply sr-only;
+        }
+
+        :is(tbody, th, td) {
+            @apply block !w-full;
+        }
+
+        label {
+            @apply text-start;
+        }
+
+        tr {
+            @apply p-4 !w-full flex flex-col gap-6;
+        }
+
+        tr td:last-of-type ul {
+            @apply px-0;
+        }
+
+        .table-repeater-column.has-hidden-label .fi-fo-field-wrp > label {
+            @apply not-sr-only;
+        }
+    }
+}
+
+@media (max-width: theme('screens.xl')) {
+    .table-repeater-component.break-point-xl table {
+        @apply block w-full;
+
+        thead {
+            @apply sr-only;
+        }
+
+        :is(tbody, th, td) {
+            @apply block !w-full;
+        }
+
+        label {
+            @apply text-start;
+        }
+
+        tr {
+            @apply p-4 !w-full flex flex-col gap-6;
+        }
+
+        tr td:last-of-type ul {
+            @apply px-0;
+        }
+
+        .table-repeater-column.has-hidden-label .fi-fo-field-wrp > label {
+            @apply not-sr-only;
+        }
+    }
+}
+
+@media (max-width: theme('screens.2xl')) {
+    .table-repeater-component.break-point-2xl table {
+        @apply block w-full;
+
+        thead {
+            @apply sr-only;
+        }
+
+        :is(tbody, th, td) {
+            @apply block !w-full;
+        }
+
+        label {
+            @apply text-start;
+        }
+
+        tr {
+            @apply p-4 !w-full flex flex-col gap-6;
+        }
+
+        tr td:last-of-type ul {
+            @apply px-0;
+        }
+
+        .table-repeater-column.has-hidden-label .fi-fo-field-wrp > label {
+            @apply not-sr-only;
+        }
+    }
+}
+
