@@ -18,7 +18,10 @@ Route::controller(AuthController::class)
         Route::get('/callback', 'callback')->name('callback');
     });
 
-Route::get('artisan-storage-link', fn() => Artisan::call('storage:link'));
+Route::get('artisan-storage-link', function(){
+    Artisan::call('storage:link');
+    dd(Artisan::output());
+});
 Route::get('artisan-filament-optimize', fn() => Artisan::call('filament:optimize'));
 Route::get('artisan-filament-optimize-clear', fn() => Artisan::call('filament:optimize-clear'));
 Route::get('artisan-filament-cache-components', fn() => Artisan::call('filament:cache-components'));
