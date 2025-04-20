@@ -26,3 +26,11 @@ Route::get('artisan-filament-cache-components-clear', fn() => Artisan::call('fil
 Route::get('artisan-filament-icons-cache', fn() => Artisan::call('icons:cache'));
 Route::get('artisan-optimize', fn() => Artisan::call('optimize'));
 Route::get('artisan-optimize-clear', fn() => Artisan::call('optimize:clear'));
+
+Route::get('migrate-and-seed',function(){
+    if(request()->query('secret') != 'adnalsdnsldsandio3hodna'){
+        abort(404);
+    }
+    Artisan::call('migrate --seed');
+    dd(Artisan::output());
+});

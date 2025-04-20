@@ -58,7 +58,7 @@ class AdminUserRequestResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        $query = static::getModel()::query()->where('admin_user_id', auth()->id())->whereIn('status', [UserRequestState::APPROVED, UserRequestState::CLOSED]);
+        $query = static::getModel()::query()->where('admin_user_id', auth()->id())->whereIn('status', [UserRequestState::APPROVED, UserRequestState::CLOSED, UserRequestState::PENDING]);
 
         if (
             static::isScopedToTenant() &&
