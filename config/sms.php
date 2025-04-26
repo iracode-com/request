@@ -55,9 +55,9 @@ return [
         ],
         // Install: composer require melipayamak/php
         'melipayamak'        => [
-            'username' => 'Your Username',
-            'password' => 'Your Password',
-            'from'     => 'Your Default From Number',
+            'username' => env('MELI_PAYAMAK_USERNAME'),
+            'password' => env('MELI_PAYAMAK_PASSWORD'),
+            'from'     => env('MELI_PAYAMAK_NUMBER'),
             'flash'    => false,
         ],
         'melipayamakpattern' => [
