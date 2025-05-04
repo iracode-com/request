@@ -28,7 +28,7 @@ function get_users_list()
 function current_user_has_role($roleName)
 {
     // return auth()->user()->hasRole($roleName);
-    return auth()->user()->role == $roleName;
+    return auth()->user() && auth()->user()->role == $roleName;
 }
 
 function pascalToTitle($string)
