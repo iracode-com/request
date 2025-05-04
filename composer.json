@@ -21,6 +21,7 @@
         "joelbutcher/laravel-archivable": "^1.11",
         "kavenegar/laravel": "^1.3",
         "kavenegar/php": "^1.2",
+        "kenepa/banner": "^0.1.0",
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "melipayamak/php": "1.0.0",

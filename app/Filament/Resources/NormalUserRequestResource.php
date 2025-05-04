@@ -6,11 +6,13 @@ use App\Enums\UserRequestState;
 use App\Enums\UserRole;
 use App\Filament\Resources\NormalUserRequestResource\Pages;
 use App\Filament\Resources\NormalUserRequestResource\RelationManagers;
+use App\Models\RejectReason;
 use App\Models\UserRequest;
 use App\Traits\BadgeTrait;
 use App\Traits\LabelsTrait;
 use Filament\Facades\Filament;
 use Filament\Forms;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -67,35 +69,109 @@ class NormalUserRequestResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $user = auth()->user();
+
         return $form
             ->schema([
-                Forms\Components\Hidden::make('user_id')
-                    ->default(auth()->id()),
-                Forms\Components\Hidden::make('tracking_code')
-                    ->default(generateTrackingCode()),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->columnSpanFull()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('text')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('attachment')
-                    ->columnSpanFull(),
-                Forms\Components\Repeater::make('responses')
-                    ->relationship()
-                    ->reorderable(false)
-                    ->deletable(false)
-                    ->addable(false)
-                    ->columnSpanFull()
+                Section::make(__("User Information"))
                     ->columns(2)
-                    ->defaultItems(0)
                     ->schema([
-                        Forms\Components\Textarea::make('message')
+                        Forms\Components\TextInput::make('profile_national_code')
+                            ->label(__('National Code'))
                             ->required()
-                            ->readOnly(),
+                            ->default(fn() => $user->user_type == 1 && $user->profile ? $user->profile->national_code : null)
+                            ->visible(fn() => $user->user_type == 1),
+                        Forms\Components\DatePicker::make('profile_birthdate')
+                            ->label(__('Birthdate'))
+                            ->jalali()
+                            ->required()
+                            ->default(fn() => $user->user_type == 1 && $user->profile ? $user->profile->birthdate : null)
+                            ->visible(fn() => $user->user_type == 1),
+                        Forms\Components\TextInput::make('profile_fathername')
+                            ->label(__('Father Name'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 1 && $user->profile ? $user->profile->fathername : null)
+                            ->visible(fn() => $user->user_type == 1),
+
+                        // Corporate profile fields
+                        Forms\Components\TextInput::make('corp_company_code')
+                            ->label(__('Company Code'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_code : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_company_name')
+                            ->label(__('Company Name'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_name : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_company_owner_name')
+                            ->label(__('Company Owner Name'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_name : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_company_owner_birthdate')
+                            ->label(__('Company Owner Birthdate'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_birthdate : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_company_owner_mobile')
+                            ->label(__('Company Owner Mobile'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_mobile : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_company_owner_national_code')
+                            ->label(__('Company Owner National Code'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_national_code : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_phone')
+                            ->label(__('Phone'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->phone : null)
+                            ->visible(fn() => $user->user_type == 2),
+                        Forms\Components\TextInput::make('corp_address')
+                            ->label(__('Address'))
+                            ->required()
+                            ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->address : null)
+                            ->visible(fn() => $user->user_type == 2),
+                    ]),
+                Section::make(__("Request Information"))
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Hidden::make('user_id')
+                            ->default(auth()->id()),
+                        Forms\Components\Hidden::make('tracking_code')
+                            ->default(generateTrackingCode()),
+                        Forms\Components\TextInput::make('title')
+                            ->required()
+                            ->columnSpanFull()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('text')
+                            ->required()
+                            ->columnSpanFull(),
                         Forms\Components\FileUpload::make('attachment')
-                            ->disabled(),
+                            ->columnSpanFull(),
+                        Forms\Components\Select::make('reject_reason_id')
+                            ->required()
+                            ->searchable()
+                            ->visibleOn(['edit'])
+                            ->options(RejectReason::where('is_active', 1)->get()->pluck('name', 'id')),
+                        Forms\Components\Repeater::make('responses')
+                            ->relationship()
+                            ->reorderable(false)
+                            ->deletable(false)
+                            ->addable(false)
+                            ->columnSpanFull()
+                            ->columns(2)
+                            ->defaultItems(0)
+                            ->visibleOn(['edit'])
+                            ->schema([
+                                Forms\Components\Textarea::make('message')
+                                    ->required()
+                                    ->readOnly(),
+                                Forms\Components\FileUpload::make('attachment')
+                                    ->disabled(),
+                            ])
                     ])
             ]);
     }

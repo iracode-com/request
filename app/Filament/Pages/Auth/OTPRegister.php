@@ -264,6 +264,7 @@ class OtpRegister extends Register
     protected function getEmailFormComponent(): Component
     {
         return TextInput::make('email')
+            ->required()
             ->email()
             ->unique((new User)->getTable(), 'email', ignoreRecord: true);
     }

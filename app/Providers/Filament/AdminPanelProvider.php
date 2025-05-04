@@ -3,7 +3,10 @@
 namespace App\Providers\Filament;
 
 use App\Enums\QuestionTypes;
+use App\Enums\RoleEnum;
+use App\Enums\UserRole;
 use App\Filament\Pages;
+use App\Filament\Pages\Auth\CustomRequestPasswordReset;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\OtpRegister;
 use App\Filament\Pages\CustomProfilePage;
@@ -20,6 +23,7 @@ use App\Plugins\PdfViewerPlugin\PdfViewer;
 use App\Plugins\PdfViewerPlugin\PdfViewerPlugin;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Devonab\FilamentEasyFooter\EasyFooterPlugin;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -43,6 +47,7 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 use Joaopaulolndev\FilamentPdfViewer\FilamentPdfViewerPlugin;
+use Kenepa\Banner\BannerPlugin;
 use Rmsramos\Activitylog\ActivitylogPlugin;
 use function App\Support\setting;
 
@@ -57,8 +62,9 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->registration(OtpRegister::class)
-            ->passwordReset()
+            ->passwordReset(CustomRequestPasswordReset::class)
             ->emailVerification()
+            ->databaseNotifications()
             ->colors([
                 ...self::color(),
             ])
@@ -86,6 +92,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                \Hasnayeen\Themes\Http\Middleware\SetTheme::class
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -111,6 +118,16 @@ class AdminPanelProvider extends PanelProvider
                     ->withLinks([
                         ['title' => 'طراحی و توسعه توسط ایراکد', 'url' => 'https://iracode.com'],
                     ]),
+
+                BannerPlugin::make()
+                    ->navigationLabel(__("Banner Manager"))
+                    ->title(__("Banner Manager"))
+                    ->subheading('')
+                    ->disableBannerManager()
+                    ->persistsBannersInDatabase(),
+
+                \Hasnayeen\Themes\ThemesPlugin::make()
+                    ->canViewThemesPage(fn()=>current_user_has_role(UserRole::ADMIN)),
 
                 FilamentEditProfilePlugin::make()
                     ->slug('my-profile')

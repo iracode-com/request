@@ -1,0 +1,30 @@
+<?php
+
+// translations for Kenepa/Banner
+return [
+    'title' => 'مدیریت بنر',
+    'subheading' => 'بنرهای خود را مدیریت کنید',
+    'navigation_label' => 'مدیریت بنر',
+    'create' => 'ثبت',
+    'save' => 'ذخیره',
+    'inactive' => 'غیرفعال',
+    'banner_list_empty_state_title' => 'هیچ بنری ثبت نشده',
+    'banner_list_empty_state_description' => 'هر زمان که اولین بنر را بسازید اینجا نمایش داده میشود',
+    'banner_edit_empty_state_title' => 'هیچ بنری انتخاب نشده',
+    'banner_edit_empty_state_description' => 'برای شروع کار یک بنر انتخاب یا ایجاد کنید',
+    'enable_all_banners' => 'فعال کردن همه بنرها',
+    'disable_all_banners' => 'غیرفعال کردن همه بنرها',
+    'successfully_deleted_banner' => 'بنر حذف شد',
+    'successfully_updated_banner' => 'بنر بروزرسانی شد',
+    'successfully_created_banner' => 'بنر با موفقیت ایجاد شد',
+    'disabled_all_banners' => 'غیرفعال کردن همه بنرها',
+    'enabled_all_banners' => 'فعالسازی همه بنرها',
+    'failed_to_load_banner' => 'خطا در بارگذاری بنر',
+    'banner_name' => 'نام',
+    'banner_content' => 'محتوا',
+    'banner_render_location' => 'محل نمایش',
+    'status_due' => 'تا',
+    'status_visible' => 'قابل نمایش',
+    'status_fulfilled' => 'تکمیل شده',
+    'active_since' => 'فعال شده از',
+];

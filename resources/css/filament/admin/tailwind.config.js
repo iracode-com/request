@@ -8,5 +8,6 @@ export default {
         './vendor/filament/**/*.blade.php',
         './vendor/codewithdennis/filament-simple-alert/resources/**/*.blade.php',
         './vendor/solution-forest/filament-tree/resources/**/*.blade.php',
+        './vendor/kenepa/banner/resources/**/*.php',
     ],
 }

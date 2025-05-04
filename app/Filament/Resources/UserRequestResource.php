@@ -93,18 +93,18 @@ class UserRequestResource extends Resource
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('attachment')
                     ->disabled(),
-                Forms\Components\Select::make('status')
-                    ->options(UserRequestState::class)
-                    ->searchable()
-                    ->live()
-                    ->required(),
-                Forms\Components\Select::make('reject_reason_id')
-                    ->required()
-                    ->searchable()
-                    ->visible(function (Get $get) {
-                        return $get('status') && $get('status') == UserRequestState::REJECTED->value;
-                    })
-                    ->options(RejectReason::where('is_active', 1)->get()->pluck('name', 'id')),
+                // Forms\Components\Select::make('status')
+                //     ->options(UserRequestState::class)
+                //     ->searchable()
+                //     ->live()
+                //     ->required(),
+                // Forms\Components\Select::make('reject_reason_id')
+                //     ->required()
+                //     ->searchable()
+                //     ->visible(function (Get $get) {
+                //         return $get('status') && $get('status') == UserRequestState::REJECTED->value;
+                //     })
+                //     ->options(RejectReason::where('is_active', 1)->get()->pluck('name', 'id')),
             ]);
     }
 

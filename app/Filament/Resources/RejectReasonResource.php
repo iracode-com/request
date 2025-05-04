@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class RejectReasonResource extends Resource
@@ -26,7 +27,22 @@ class RejectReasonResource extends Resource
         return __('Organizational information');
     }
 
+    public static function canCreate(): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
+    }
+
     public static function canAccess(): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
+    }
+
+    public static function canEdit(Model $record): bool
     {
         return current_user_has_role(UserRole::ADMIN);
     }
@@ -93,8 +109,8 @@ class RejectReasonResource extends Resource
     {
         return [
             'index' => Pages\ListRejectReasons::route('/'),
-            // 'create' => Pages\CreateRejectReason::route('/create'),
-            // 'edit' => Pages\EditRejectReason::route('/{record}/edit'),
+            'create' => Pages\CreateRejectReason::route('/create'),
+            'edit' => Pages\EditRejectReason::route('/{record}/edit'),
         ];
     }
 }

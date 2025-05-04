@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Enums\UserRequestState;
+use App\Traits\HandleSendNotificationTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UserRequest extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, HandleSendNotificationTrait;
     protected function casts(): array
     {
         return [

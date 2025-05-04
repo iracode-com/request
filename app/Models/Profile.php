@@ -8,11 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Profile extends Model
 {
-    protected $table    = 'profiles';
+    protected $table = 'profiles';
     protected $fillable = [
         'user_id',
         'fullname',
         'mobile',
+        'national_code',
+        'birthdate',
+        'fathername',
         'tel',
         'internal_tel',
         'personnel_code',
