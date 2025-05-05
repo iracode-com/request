@@ -12,6 +12,7 @@ class Setting extends Model
         'address',
         'copyright',
         'site_logo',
+        'site_login_bg',
         'site_favicon',
         'theme_color',
         'support_email',

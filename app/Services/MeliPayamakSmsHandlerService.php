@@ -9,7 +9,7 @@ class MeliPayamakSmsHandlerService implements ISmsHandler
 {
     public function sendSms(string $from = null, string $to, string $message)
     {
-        info("otp sent to {$to} from {$from}", ['message'=>$message]);
+        // info("otp sent to {$to} from {$from}", ['message' => $message]);
         try {
             $username = config('sms.drivers.melipayamak.username');
             $password = config('sms.drivers.melipayamak.password');
@@ -21,5 +21,21 @@ class MeliPayamakSmsHandlerService implements ISmsHandler
         } catch (\Exception $e) {
             info(__CLASS__, [$e->getMessage()]);
         }
+    }
+
+    public function sendSmsByPattern(string $to, array $params, string $bodyId)
+    {
+        $url = config('sms.drivers.melipayamak.serviceUrlForPatternMode', 'http://api.payamak-panel.com/post/Send.asmx?wsdl');
+        $postParameter = [
+            'username' => config('sms.drivers.melipayamak.username'),
+            'password' => config('sms.drivers.melipayamak.password'),
+            'to' => $to,
+            'text' => $params,
+            'bodyId' => $bodyId
+        ];
+
+        $client = new \SoapClient($url);
+        $result = $client->SendByBaseNumber($postParameter);
+        return $result;
     }
 }

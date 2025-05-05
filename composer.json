@@ -25,6 +25,7 @@
         "laravel/framework": "^11.9",
         "laravel/tinker": "^2.9",
         "melipayamak/php": "1.0.0",
+        "morilog/jalali": "3.*",
         "njxqlus/filament-relation-manager-component": "^1.0",
         "novadaemon/filament-combobox": "^1.1",
         "rmsramos/activitylog": "^1.0",

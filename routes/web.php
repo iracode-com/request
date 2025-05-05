@@ -34,6 +34,6 @@ Route::get('migrate-and-seed',function(){
     if(request()->query('secret') != 'adnalsdnsldsandio3hodna'){
         abort(404);
     }
-    Artisan::call('migrate --seed');
+    Artisan::call('migrate');
     dd(Artisan::output());
 });

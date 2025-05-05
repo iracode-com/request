@@ -53,3 +53,23 @@ function send_request_notification(Model $model, string $message, User | Authent
         ->sendToDatabase($user);
     return true;
 }
+
+function send_request_notification_and_pattern_sms(Model $model, User | Authenticatable $user, string $message, array $params, string $bodyId)
+{
+    if(app()->environment() == 'production'){
+        $smsHandler = app(ISmsHandler::class);
+        $smsHandler->sendSmsByPattern(
+            $user->mobile, 
+        $params,
+        $bodyId
+    );
+    }
+    else{
+        info($user->mobile, [$message]);
+    }
+    Notification::make()
+        ->title(__("System Message"))
+        ->body($message)
+        ->sendToDatabase($user);
+    return true;
+}

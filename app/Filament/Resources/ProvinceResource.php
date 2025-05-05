@@ -38,6 +38,11 @@ class ProvinceResource extends Resource implements HasShieldPermissions
         return __('Province');
     }
 
+    public static function canAccess(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

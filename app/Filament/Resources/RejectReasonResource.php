@@ -24,7 +24,7 @@ class RejectReasonResource extends Resource
     // protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     public static function getNavigationGroup(): ?string
     {
-        return __('Organizational information');
+        return __('Setting');
     }
 
     public static function canCreate(): bool

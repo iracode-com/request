@@ -15,6 +15,7 @@ use App\Filament\Resources\Question\FirstAuditResource;
 use App\Filament\Resources\Question\FirstAuditResource\Pages\CreateFirstAudit;
 use App\Filament\Resources\Question\ServiceRequestResource;
 use App\Filament\Widgets;
+use App\Filament\Widgets\RequestStatusStat;
 use App\Livewire\CustomEditProfileComponent;
 use App\Models\Organization\Organization;
 use App\Plugins\ArchivablePlugin\ArchivablePlugin;
@@ -68,14 +69,20 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 ...self::color(),
             ])
+            ->brandName(setting('site_name'))
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([Pages\Dashboard::class])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            // ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                AccountWidget::class,
+                // AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
+                RequestStatusStat::class,
             ])
+            ->renderHook(
+                'panels::body.end',
+                fn() => view('components.custom-footer'),
+            )
             ->userMenuItems([
                 'profile' => MenuItem::make()
                     ->label(fn() => auth()->user()->name)
@@ -107,17 +114,17 @@ class AdminPanelProvider extends PanelProvider
                 AuthUIEnhancerPlugin::make()
                     ->formPanelPosition('left')
                     ->showEmptyPanelOnMobile(true)
-                    ->emptyPanelBackgroundImageUrl(Vite::asset('resources/assets/images/auth-banner.png')),
+                    ->emptyPanelBackgroundImageUrl( setting('site_login_bg') ? Storage::url(setting('site_login_bg')) : Vite::asset('resources/assets/images/auth-banner.png')),
                 ArchivablePlugin::make(),
 
                 // self::configureEaseFooterPlugin(),
 
-                EasyFooterPlugin::make()
-                    ->withFooterPosition('sidebar.footer')
-                    ->withSentence(new HtmlString('<img src="' . Vite::asset('resources/assets/images/iracode.webp') . '" width="30"> نسخه 1.0.0'))
-                    ->withLinks([
-                        ['title' => 'طراحی و توسعه توسط ایراکد', 'url' => 'https://iracode.com'],
-                    ]),
+                // EasyFooterPlugin::make()
+                //     ->withFooterPosition('sidebar.footer')
+                //     ->withSentence(new HtmlString('<img src="' . Vite::asset('resources/assets/images/iracode.webp') . '" width="30"> نسخه 1.0.0'))
+                //     ->withLinks([
+                //         ['title' => 'طراحی و توسعه توسط ایراکد', 'url' => 'https://iracode.com'],
+                //     ]),
 
                 BannerPlugin::make()
                     ->navigationLabel(__("Banner Manager"))
@@ -205,11 +212,11 @@ class AdminPanelProvider extends PanelProvider
     {
         return EasyFooterPlugin::make()
             ->withBorder()
-            ->withSentence(new HtmlString('<img src="' . self::getBrandLogo() . '" width="40"> ' . setting('copyright')))
-            ->withLinks([
-                ['title' => 'صفحه اصلی', 'url' => 'https://iracode.com'],
-                ['title' => 'تماس با ما', 'url' => 'https://iracode.com/about-us'],
-                ['title' => 'درباره ما', 'url' => 'https://iracode.com/about-us'],
-            ]);
+            ->withSentence(new HtmlString('<img src="' . self::getBrandLogo() . '" width="40"> ' . setting('copyright')));
+            // ->withLinks([
+            //     ['title' => 'صفحه اصلی', 'url' => 'https://iracode.com'],
+            //     ['title' => 'تماس با ما', 'url' => 'https://iracode.com/about-us'],
+            //     ['title' => 'درباره ما', 'url' => 'https://iracode.com/about-us'],
+            // ]);
     }
 }

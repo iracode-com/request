@@ -38,6 +38,11 @@ class CityResource extends Resource implements HasShieldPermissions
         return __('Cities');
     }
 
+    public static function canAccess(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form->schema([

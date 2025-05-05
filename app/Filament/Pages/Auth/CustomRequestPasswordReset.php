@@ -71,7 +71,12 @@ class CustomRequestPasswordReset extends RequestPasswordReset
                 if ($notification->url) {
                     // info('reset pass', ["لینک تغییر رمز عبور شما: " . $notification->url]);
                     $smsHandler = app(ISmsHandler::class);
-                    $smsHandler->sendSms(null, $data['mobile'], "لینک تغییر رمز عبور شما: ". $notification->url);
+                    // $smsHandler->sendSms(null, $data['mobile'], "لینک تغییر رمز عبور شما: ". $notification->url);
+                    $smsHandler->sendSmsByPattern(
+                            $data['mobile'], 
+                        [$notification->url], 
+                        config('sms.drivers.melipayamak.patternIds.forgotPassword')
+                    );
                 }
 
                 $user->notify($notification);

@@ -39,6 +39,11 @@ class CountryResource extends Resource implements HasShieldPermissions
         return __('Countries');
     }
 
+    public static function canAccess(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

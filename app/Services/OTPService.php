@@ -85,7 +85,12 @@ class OtpService
     public function sendOtp($code, string|array $to, string|int $pattern = null): void
     {
         $smsHandler = app(ISmsHandler::class);
-        $smsHandler->sendSms(null, $to, "کد تایید شما {$code} میباشد");
+        // $smsHandler->sendSms(null, $to, "کد تایید شما {$code} میباشد");
+        $smsHandler->sendSmsByPattern(
+            $to,
+        [$code],
+        config('sms.drivers.melipayamak.patternIds.verifyCode')
+        );
         
         // app(SmsService::class)
         //     ->receptor(User::query()->where('mobile', $to)->firstOrFail())
