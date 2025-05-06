@@ -112,6 +112,7 @@ class OtpRegister extends Register
             [
                 'name' => $data['name'],
                 'family' => $data['family'],
+                'email' => $data['email'],
                 'password' => $data['password'],
                 'user_type' => $data['user_type'],
                 'role' => UserRole::USER->value,
