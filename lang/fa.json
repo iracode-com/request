@@ -2809,5 +2809,7 @@
   "Owner Birth Date":"تاریخ تولد مالک شرکت",
   "Owner Mobile":"شماره موبایل مالک شرکت",
   "Owner National Code":"کد ملی مالک شرکت",
+  "Reset Link Sent":"لینک بازیابی رمز عبور ارسال شد",
+  "Reset Link Not Sent":"ارسال لینک با خطا مواجد شد",
   "I Accept":"می پذیرم"
 }

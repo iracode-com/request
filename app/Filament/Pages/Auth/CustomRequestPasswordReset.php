@@ -39,6 +39,7 @@ class CustomRequestPasswordReset extends RequestPasswordReset
             ->label(__('Mobile'))
             ->minLength(11)
             ->maxLength(11)
+            ->exists((new User)->getTable(), 'mobile')
             ->required()
             ->autofocus();
     }
@@ -85,7 +86,7 @@ class CustomRequestPasswordReset extends RequestPasswordReset
 
         if ($status !== Password::RESET_LINK_SENT) {
             Notification::make()
-                ->title(__($status))
+                ->title(__("Reset Link Not Sent"))
                 ->danger()
                 ->send();
 
@@ -93,7 +94,7 @@ class CustomRequestPasswordReset extends RequestPasswordReset
         }
 
         Notification::make()
-            ->title(__($status))
+            ->title(__("Reset Link Sent"))
             ->success()
             ->send();
 

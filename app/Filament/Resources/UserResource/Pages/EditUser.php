@@ -22,9 +22,9 @@ class EditUser extends EditRecord
         parent::save($shouldRedirect, $shouldSendSavedNotification);
 
 
-        $permissionsState = $this->form->getState()['permissions'];
-        Arr::forget($permissionsState, 'resources');
-        $state            = Arr::flatten($permissionsState);
-        app(PermissionService::class)->syncPermissions($this->getRecord(), $state);
+        // $permissionsState = $this->form->getState()['permissions'];
+        // Arr::forget($permissionsState, 'resources');
+        // $state            = Arr::flatten($permissionsState);
+        // app(PermissionService::class)->syncPermissions($this->getRecord(), $state);
     }
 }

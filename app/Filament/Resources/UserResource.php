@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms;
 use App\Filament\Resources\UserResource\Schemas;
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource implements HasShieldPermissions
 {
@@ -34,6 +35,26 @@ class UserResource extends Resource implements HasShieldPermissions
     public static function getPluralLabel(): ?string
     {
         return __('Users');
+    }
+
+    public static function canCreate(): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
+    }
+
+    public static function canAccess(): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return current_user_has_role(UserRole::ADMIN);
     }
 
     public static function form(Form $form): Form
