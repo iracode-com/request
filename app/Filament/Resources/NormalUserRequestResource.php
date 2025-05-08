@@ -156,6 +156,7 @@ class NormalUserRequestResource extends Resource
                     ]),
                 Section::make(__("Response Information"))
                     ->columns(2)
+                    ->visibleOn(['edit'])
                     ->schema([
                         Forms\Components\Repeater::make('responses')
                             ->relationship()
