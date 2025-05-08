@@ -14,6 +14,7 @@ use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -109,9 +110,10 @@ class NormalUserRequestResource extends Resource
                             ->required()
                             ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_name : null)
                             ->visible(fn() => $user->user_type == 2),
-                        Forms\Components\TextInput::make('corp_company_owner_birthdate')
+                        Forms\Components\DatePicker::make('corp_company_owner_birthdate')
                             ->label(__('Company Owner Birthdate'))
                             ->required()
+                            ->jalali()
                             ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_birthdate : null)
                             ->visible(fn() => $user->user_type == 2),
                         Forms\Components\TextInput::make('corp_company_owner_mobile')
@@ -151,11 +153,10 @@ class NormalUserRequestResource extends Resource
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('attachment')
                             ->columnSpanFull(),
-                        Forms\Components\Select::make('reject_reason_id')
-                            ->required()
-                            ->searchable()
-                            ->visibleOn(['edit'])
-                            ->options(RejectReason::where('is_active', 1)->get()->pluck('name', 'id')),
+                    ]),
+                Section::make(__("Response Information"))
+                    ->columns(2)
+                    ->schema([
                         Forms\Components\Repeater::make('responses')
                             ->relationship()
                             ->reorderable(false)
@@ -165,6 +166,10 @@ class NormalUserRequestResource extends Resource
                             ->columns(2)
                             ->defaultItems(0)
                             ->visibleOn(['edit'])
+                            ->live()
+                            ->label(function(Get $get){
+                                return !$get('responses') || (is_array($get('responses')) && count($get('responses')) <= 0) ? __("Responses (No Item Found)") : __("Responses");
+                            })
                             ->schema([
                                 Forms\Components\Textarea::make('message')
                                     ->required()

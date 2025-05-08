@@ -265,40 +265,52 @@ class AdminUserRequestResource extends Resource
                         }
                     })
                     ->visible(fn($get) => filled($get('user_id'))),
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->readOnly()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('text')
-                    ->required()
-                    ->readOnly()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('attachment')
-                    ->disabled(),
-                Forms\Components\Select::make('status')
-                    ->options(UserRequestState::class)
-                    ->searchable()
-                    ->live()
-                    ->required(),
-                Forms\Components\Select::make('reject_reason_id')
-                    ->required()
-                    ->searchable()
-                    ->visible(function (Get $get) {
-                        return $get('status') && $get('status') == UserRequestState::REJECTED->value;
-                    })
-                    ->options(RejectReason::where('is_active', 1)->get()->pluck('name', 'id')),
-                Forms\Components\Repeater::make('responses')
-                    ->relationship()
-                    ->reorderable(false)
-                    ->deletable(false)
-                    ->columnSpanFull()
+                Section::make(__("Request Information"))
                     ->columns(2)
                     ->schema([
-                        Forms\Components\Textarea::make('message')
+                        Forms\Components\TextInput::make('title')
                             ->required()
+                            ->readOnly()
+                            ->maxLength(255),
+                        Forms\Components\Textarea::make('text')
+                            ->required()
+                            ->readOnly()
                             ->columnSpanFull(),
                         Forms\Components\FileUpload::make('attachment')
-                            ->columnSpanFull(),
+                            ->disabled(),
+                        Forms\Components\Select::make('status')
+                            ->options(UserRequestState::class)
+                            ->searchable()
+                            ->live()
+                            ->required(),
+                        Forms\Components\Select::make('reject_reason_id')
+                            ->required()
+                            ->searchable()
+                            ->visible(function (Get $get) {
+                                return $get('status') && $get('status') == UserRequestState::REJECTED->value;
+                            })
+                            ->options(RejectReason::where('is_active', 1)->get()->pluck('name', 'id')),
+                    ]),
+                Section::make(__("Response Information"))
+                    ->columns(2)
+                    ->schema([
+                        Forms\Components\Repeater::make('responses')
+                            ->relationship()
+                            ->reorderable(false)
+                            ->deletable(false)
+                            ->columnSpanFull()
+                            ->columns(2)
+                            ->live()
+                            ->label(function(Get $get){
+                                return !$get('responses') || (is_array($get('responses')) && count($get('responses')) <= 0) ? __("Responses (No Item Found)") : __("Responses");
+                            })
+                            ->schema([
+                                Forms\Components\Textarea::make('message')
+                                    ->required()
+                                    ->columnSpanFull(),
+                                Forms\Components\FileUpload::make('attachment')
+                                    ->columnSpanFull(),
+                            ])
                     ])
             ]);
     }
