@@ -103,7 +103,10 @@ class UserResource extends Resource implements HasShieldPermissions
                 // Tables\Columns\TextColumn::make('ip')->searchable()->toggleable(isToggledHiddenByDefault: true),
                 // Tables\Columns\TextColumn::make('agent')->searchable()->words(3)->tooltip(fn(User $user) => $user->agent)->toggleable(isToggledHiddenByDefault: true),
                 // Tables\Columns\TextColumn::make('last_login')->sortable()->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\ToggleColumn::make('status')->disabled(fn($record) => $record->id == auth()->id()),
+                Tables\Columns\ToggleColumn::make('status')->disabled(function($record){
+                    $mainSuperAdminUser = User::where('role', UserRole::SUPERADMIN->value)->orderBy('created_at')->first();
+                    return $record->id == auth()->id() || ($mainSuperAdminUser && $record->id == $mainSuperAdminUser->id);
+                }),
                 Tables\Columns\TextColumn::make('created_at')->jalaliDateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')->jalaliDateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
