@@ -5,6 +5,7 @@ use App\Models\User;
 use Filament\Notifications\Notification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 function generateTrackingCode()
 {
@@ -79,4 +80,34 @@ function send_request_notification_and_pattern_sms(Model $model, User | Authenti
         ->body($message)
         ->sendToDatabase($user);
     return true;
+}
+
+function get_latest_assets()
+{
+    $assetsPath = public_path('build/assets');
+    $cssFile = null;
+    $jsFile = null;
+
+    if (File::isDirectory($assetsPath)) {
+        $files = File::files($assetsPath);
+
+        foreach ($files as $file) {
+            if ($file->getExtension() === 'css') {
+                if (!$cssFile || $file->getMTime() > $cssFile->getMTime()) {
+                    $cssFile = $file;
+                }
+            }
+
+            if ($file->getExtension() === 'js') {
+                if (!$jsFile || $file->getMTime() > $jsFile->getMTime()) {
+                    $jsFile = $file;
+                }
+            }
+        }
+    }
+
+    return [
+        'css' => $cssFile ? asset('build/assets/' . $cssFile->getFilename()) : null,
+        'js' => $jsFile ? asset('build/assets/' . $jsFile->getFilename()) : null,
+    ];
 }
