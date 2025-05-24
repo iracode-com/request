@@ -315,6 +315,6 @@ class SettingPage extends Page
 
     public static function canAccess(): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_has_role(UserRole::SUPERADMIN);
     }
 }

@@ -2422,6 +2422,7 @@
   "Issued count": "تعداد صادره",
   "Issued percentage": "درصد صادره",
   "User can login as admin": "کاربر میتواند به عنوان مدیر وارد شود.",
+  "User can login as superadmin": "کاربر میتواند به عنوان مدیر اصلی وارد شود.",
   "User does not have access to admin panel": "کاربر به صفحه مدیریت دسترسی ندارد.",
   "Step": "مرحله",
   "Path": "مسیر",
@@ -2813,5 +2814,6 @@
   "Responses (No Item Found)":"پاسخی یافت نشد",
   "Reset Link Sent":"لینک بازیابی رمز عبور ارسال شد",
   "Reset Link Not Sent":"ارسال لینک با خطا مواجد شد",
+  "Superadmin":"مدیر اصلی",
   "I Accept":"می پذیرم"
 }

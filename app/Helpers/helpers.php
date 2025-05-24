@@ -1,4 +1,5 @@
 <?php
+use App\Enums\UserRole;
 use App\Interfaces\ISmsHandler;
 use App\Models\User;
 use Filament\Notifications\Notification;
@@ -29,6 +30,12 @@ function current_user_has_role($roleName)
 {
     // return auth()->user()->hasRole($roleName);
     return auth()->user() && auth()->user()->role == $roleName;
+}
+
+function current_user_is_admin()
+{
+    // return auth()->user()->hasRole($roleName);
+    return auth()->user() && (auth()->user()->role == UserRole::ADMIN || auth()->user()->role == UserRole::SUPERADMIN);
 }
 
 function pascalToTitle($string)

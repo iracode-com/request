@@ -39,22 +39,22 @@ class UserResource extends Resource implements HasShieldPermissions
 
     public static function canCreate(): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_has_role(UserRole::SUPERADMIN);
     }
 
     public static function canDelete(Model $record): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_has_role(UserRole::SUPERADMIN);
     }
 
     public static function canAccess(): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_has_role(UserRole::SUPERADMIN);
     }
 
     public static function canEdit(Model $record): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_has_role(UserRole::SUPERADMIN);
     }
 
     public static function form(Form $form): Form

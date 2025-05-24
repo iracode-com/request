@@ -45,7 +45,7 @@ class UserRequestResource extends Resource
 
     public static function canEdit(Model $record): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_is_admin();
     }
 
     public static function canDelete(Model $record): bool
@@ -55,7 +55,7 @@ class UserRequestResource extends Resource
 
     public static function canAccess(): bool
     {
-        return current_user_has_role(UserRole::ADMIN);
+        return current_user_is_admin();
     }
 
     public static function getEloquentQuery(): Builder
@@ -272,10 +272,10 @@ class UserRequestResource extends Resource
                     ->required()
                     ->readOnly()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('text')
-                    ->required()
-                    ->readOnly()
-                    ->columnSpanFull(),
+                // Forms\Components\Textarea::make('text')
+                //     ->required()
+                //     ->readOnly()
+                //     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('attachment')
                     ->disabled(),
                 // Forms\Components\Select::make('status')

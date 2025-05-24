@@ -80,6 +80,8 @@ class NormalUserRequestResource extends Resource
                         Forms\Components\TextInput::make('profile_national_code')
                             ->label(__('National Code'))
                             ->required()
+                            ->minLength(10)
+                            ->maxLength(10)
                             ->default(fn() => $user->user_type == 1 && $user->profile ? $user->profile->national_code : null)
                             ->visible(fn() => $user->user_type == 1),
                         Forms\Components\DatePicker::make('profile_birthdate')
@@ -124,6 +126,8 @@ class NormalUserRequestResource extends Resource
                         Forms\Components\TextInput::make('corp_company_owner_national_code')
                             ->label(__('Company Owner National Code'))
                             ->required()
+                            ->minLength(10)
+                            ->maxLength(10)
                             ->default(fn() => $user->user_type == 2 && $user->corporationProfile ? $user->corporationProfile->company_owner_national_code : null)
                             ->visible(fn() => $user->user_type == 2),
                         Forms\Components\TextInput::make('corp_phone')
@@ -148,9 +152,9 @@ class NormalUserRequestResource extends Resource
                             ->required()
                             ->columnSpanFull()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('text')
-                            ->required()
-                            ->columnSpanFull(),
+                        // Forms\Components\Textarea::make('text')
+                        //     ->required()
+                        //     ->columnSpanFull(),
                         Forms\Components\FileUpload::make('attachment')
                             ->columnSpanFull(),
                     ]),
