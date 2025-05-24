@@ -60,6 +60,12 @@ class SettingPage extends Page
                 'name' => $this->data['site_favicon'],
             ];
         }
+        
+        if (isset($this->data['site_login_bg']) && is_string($this->data['site_login_bg'])) {
+            $this->data['site_login_bg'] = [
+                'name' => $this->data['site_login_bg'],
+            ];
+        }
     }
 
     public function form(Form $form): Form
