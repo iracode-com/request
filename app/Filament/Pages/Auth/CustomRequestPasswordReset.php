@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset;
 use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Password;
 use Filament\Notifications\Auth\ResetPassword as ResetPasswordNotification;
 use App\Interfaces\ISmsHandler;
@@ -56,10 +57,11 @@ class CustomRequestPasswordReset extends RequestPasswordReset
 
         $data = $this->form->getState();
         $data['email'] = $data['email'] ?? User::where('mobile', $data['mobile'])->first()?->email;
+        $redirectUrl = null;
 
         $status = Password::broker(Filament::getAuthPasswordBroker())->sendResetLink(
             $data,
-            function (CanResetPassword|User $user, string $token) use ($data): void {
+            function (CanResetPassword|User $user, string $token) use ($data, &$redirectUrl): void {
                 if (!method_exists($user, 'notify')) {
                     $userClass = $user::class;
 
@@ -70,14 +72,18 @@ class CustomRequestPasswordReset extends RequestPasswordReset
                 $notification->url = Filament::getResetPasswordUrl($token, $user);
 
                 if ($notification->url) {
+                    $redirectUrl = $notification->url;
                     // info('reset pass', ["لینک تغییر رمز عبور شما: " . $notification->url]);
                     $smsHandler = app(ISmsHandler::class);
                     // $smsHandler->sendSms(null, $data['mobile'], "لینک تغییر رمز عبور شما: ". $notification->url);
-                    $smsHandler->sendSmsByPattern(
-                            $data['mobile'], 
-                        [$notification->url], 
-                        config('sms.drivers.melipayamak.patternIds.forgotPassword')
-                    );
+                    $queryParamsArray = extract_reset_password_query_params($notification->url);
+                    if(is_array($queryParamsArray) && count($queryParamsArray) > 0){
+                        $smsHandler->sendSmsByPattern(
+                                $data['mobile'], 
+                            array_values($queryParamsArray), 
+                            config('sms.drivers.melipayamak.patternIds.forgotPassword')
+                        );
+                    }
                 }
 
                 $user->notify($notification);
@@ -98,7 +104,22 @@ class CustomRequestPasswordReset extends RequestPasswordReset
             ->success()
             ->send();
 
-        $this->form->fill();
+        $smsHandler = app(ISmsHandler::class);
+        $code = (string)random_int(1000, 9999);
+        Cache::put('reset_pass_'.$data['email'], $code, 120);
+        $smsHandler->sendSmsByPattern(
+            $data['mobile'],
+        [$code],
+        config('sms.drivers.melipayamak.patternIds.verifyCode')
+        );
+
+        if($redirectUrl){
+            // $redirectUrl = remove_query_param($redirectUrl, 'email');
+            redirect()->to($redirectUrl);
+        }
+        else{
+            $this->form->fill();
+        }
     }
 
     protected function getRequestFormAction(): Action

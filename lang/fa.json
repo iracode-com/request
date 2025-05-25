@@ -2815,5 +2815,6 @@
   "Reset Link Sent":"لینک بازیابی رمز عبور ارسال شد",
   "Reset Link Not Sent":"ارسال لینک با خطا مواجد شد",
   "Superadmin":"مدیر اصلی",
+  "The verification code is invalid or has expired.":"کد درست نیست یا منقضی شده",
   "I Accept":"می پذیرم"
 }

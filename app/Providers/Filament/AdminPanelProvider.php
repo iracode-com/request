@@ -7,6 +7,7 @@ use App\Enums\RoleEnum;
 use App\Enums\UserRole;
 use App\Filament\Pages;
 use App\Filament\Pages\Auth\CustomRequestPasswordReset;
+use App\Filament\Pages\Auth\CustomResetPasswordReset;
 use App\Filament\Pages\Auth\Login;
 use App\Filament\Pages\Auth\OtpRegister;
 use App\Filament\Pages\CustomProfilePage;
@@ -63,7 +64,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login(Login::class)
             ->registration(OtpRegister::class)
-            ->passwordReset(CustomRequestPasswordReset::class)
+            ->passwordReset(CustomRequestPasswordReset::class, CustomResetPasswordReset::class)
             ->emailVerification()
             ->databaseNotifications()
             ->colors([

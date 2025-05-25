@@ -60,7 +60,8 @@ return [
             'from'     => env('MELI_PAYAMAK_NUMBER'),
             'serviceUrlForPatternMode' => 'http://api.payamak-panel.com/post/Send.asmx?wsdl',
             'patternIds' => [
-                'forgotPassword' => '324831',
+                // 'forgotPassword' => '324831',
+                'forgotPassword' => '332811',
                 'requestApproved' => '324511',
                 'verifyCode' => '324509',
                 'requestInserted' => '324512',

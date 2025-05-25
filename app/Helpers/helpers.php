@@ -46,13 +46,12 @@ function pascalToTitle($string)
 }
 
 
-function send_request_notification(Model $model, string $message, User | Authenticatable $user)
+function send_request_notification(Model $model, string $message, User|Authenticatable $user)
 {
-    if(app()->environment() == 'production'){
+    if (app()->environment() == 'production') {
         $smsHandler = app(ISmsHandler::class);
         $smsHandler->sendSms(null, $user->mobile, $message);
-    }
-    else{
+    } else {
         info($user->mobile, [$message]);
     }
     Notification::make()
@@ -62,17 +61,16 @@ function send_request_notification(Model $model, string $message, User | Authent
     return true;
 }
 
-function send_request_notification_and_pattern_sms(Model $model, User | Authenticatable $user, string $message, array $params, string $bodyId)
+function send_request_notification_and_pattern_sms(Model $model, User|Authenticatable $user, string $message, array $params, string $bodyId)
 {
-    if(app()->environment() == 'production'){
+    if (app()->environment() == 'production') {
         $smsHandler = app(ISmsHandler::class);
         $smsHandler->sendSmsByPattern(
-            $user->mobile, 
-        $params,
-        $bodyId
-    );
-    }
-    else{
+            $user->mobile,
+            $params,
+            $bodyId
+        );
+    } else {
         info($user->mobile, [$message]);
     }
     Notification::make()
@@ -110,4 +108,55 @@ function get_latest_assets()
         'css' => $cssFile ? asset('build/assets/' . $cssFile->getFilename()) : null,
         'js' => $jsFile ? asset('build/assets/' . $jsFile->getFilename()) : null,
     ];
+}
+
+
+function extract_reset_password_query_params(string $url)
+{
+
+    $parsedUrl = parse_url($url);
+    $queryString = $parsedUrl['query'] ?? '';
+
+    parse_str($queryString, $params);
+
+    $email = $params['email'] ?? null;
+    $token = $params['token'] ?? null;
+    $signature = $params['signature'] ?? null;
+
+    if ($email && $token && $signature) {
+        return [
+            "email"=> $email,
+            "token"=> $token,
+            "signature"=> $signature,
+        ];
+    }
+    return [];
+}
+
+
+function remove_query_param($url, $paramToRemove) {
+    $parsedUrl = parse_url($url);
+    
+    if (!isset($parsedUrl['query'])) {
+        return $url; // No query string, return original URL
+    }
+    
+    // Parse query string into array
+    parse_str($parsedUrl['query'], $params);
+    
+    // Remove the specified parameter
+    unset($params[$paramToRemove]);
+    
+    // Rebuild the URL
+    $newQuery = http_build_query($params);
+    
+    // Reconstruct the full URL
+    $scheme = isset($parsedUrl['scheme']) ? $parsedUrl['scheme'] . '://' : '';
+    $host = $parsedUrl['host'] ?? '';
+    $port = isset($parsedUrl['port']) ? ':' . $parsedUrl['port'] : '';
+    $path = $parsedUrl['path'] ?? '';
+    $query = $newQuery ? '?' . $newQuery : '';
+    $fragment = isset($parsedUrl['fragment']) ? '#' . $parsedUrl['fragment'] : '';
+    
+    return $scheme . $host . $port . $path . $query . $fragment;
 }
